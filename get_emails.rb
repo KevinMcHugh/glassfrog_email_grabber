@@ -19,6 +19,10 @@ def glassfrog_uri; 'https://glassfrog.holacracy.org/api/v2/'; end
 def glassfrog_key; ENV['GLASSFROG_KEY']; end
 def target_circle; ARGV.first; end
 
+unless glassfrog_key
+    abort "Environment didn't contain a GLASSFROG_KEY, did you export it?"
+end
+
 if default_roles.keys.include? target_circle
 	puts get_emails get default_roles[target_circle]
 else
