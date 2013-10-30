@@ -7,13 +7,13 @@ class EmailGrabber
 		"Rep Links" => "rep_links",
 		"Secretaries" => "secretaries"}
 	def default_roles; DEFAULT_ROLES; end
-
+	attr_reader :glassfrog_key, :glassfrog_uri
 	def initialize key, uri
-		glassfrog_key = key
-		glassfrog_uri = uri
+		@glassfrog_key = key
+		@glassfrog_uri = uri
 	end
 	def get method
-		URI.parse("#{glassfrog_uri}#{method}.xml?api_key=#{glassfrog_key}").read
+		URI.parse("#{@glassfrog_uri}#{method}.xml?api_key=#{@glassfrog_key}").read
 	end
 	def get_emails_for target_circle
 		if !target_circle
@@ -47,5 +47,23 @@ class EmailGrabber
 	def parse_emails circle_xml
 		emails = Nokogiri::XML.parse(circle_xml).xpath("people/person/email")
 		emails.map {|email| "#{email.text}"}
+	end
+end
+
+class GrabberPrinter
+	def glassfrog_uri; 'https://glassfrog.holacracy.org/api/v2/'; end
+	def glassfrog_key; ENV['GLASSFROG_KEY']; end
+	def target_circle; ARGV.first; end
+
+	def get_emails
+		unless glassfrog_key
+		    abort "Environment didn't contain a GLASSFROG_KEY, did you export it?"
+		end
+		grabber = EmailGrabber.new glassfrog_key, glassfrog_uri
+		begin 
+			grabber.get_emails_for target_circle		
+		rescue StandardError => e
+			puts e.message
+		end
 	end
 end
