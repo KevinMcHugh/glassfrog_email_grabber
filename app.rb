@@ -3,7 +3,7 @@ require 'haml'
 require_relative 'email_grabber'
 
 
-get '/' do 
-	@members = GrabberPrinter.new.get_emails "Operations"
+get '/:circle' do 
+	@members = GrabberPrinter.new.get_emails params[:circle]
 	haml :list
 end
