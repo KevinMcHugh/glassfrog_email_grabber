@@ -11,3 +11,5 @@
 					%input{:type => "submit", :value => "Send", :class => "button"}
 			- @members.each do |member|
 				%li #{member}
+			%a{href: "mailto:#{@mailto}", title: "mail"} mail these people
+

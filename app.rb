@@ -2,6 +2,13 @@ require 'sinatra'
 require 'haml'
 require_relative 'email_grabber'
 
+def generate_mailto circle, members
+	mailto = @members.reduce("") do |a,i|
+		a += "#{i},"
+	end.chomp! ","
+	subject = "?subject=#{circle}&body=Dear #{circle} Members,"
+	mailto + subject.gsub(" ", "%20")
+end		
 
 get '/' do
 	@members = []
@@ -9,6 +16,8 @@ get '/' do
 end
 
 post '/' do
-	@members = GrabberPrinter.new.get_emails params[:circle]
+	circle = params[:circle]
+	@members = GrabberPrinter.new.get_emails circle
+	@mailto = generate_mailto circle, @members
 	haml :list
 end
