@@ -4,6 +4,10 @@
 		<meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 	%body
 		%main
-			%ul
-				- @members.each do |member|
-					%li #{member}
+			%form{ :action => "", :method => "post"}
+				%fieldset
+					%label{:for => "circle"} Circle:
+					%input{:type => "text", :name => "circle", :class => "text"}
+					%input{:type => "submit", :value => "Send", :class => "button"}
+			- @members.each do |member|
+				%li #{member}
