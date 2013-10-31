@@ -52,9 +52,8 @@ end
 
 class GrabberPrinter
 	def glassfrog_uri; 'https://glassfrog.holacracy.org/api/v2/'; end
-	def glassfrog_key; ENV['GLASSFROG_KEY']; end
 
-	def get_emails target_circle
+	def get_emails target_circle, glassfrog_key
 		unless glassfrog_key
 		    abort "Environment didn't contain a GLASSFROG_KEY, did you export it?"
 		end

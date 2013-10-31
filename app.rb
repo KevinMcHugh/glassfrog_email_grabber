@@ -17,7 +17,7 @@ end
 
 post '/' do
 	circle = params[:circle]
-	@members = GrabberPrinter.new.get_emails circle
+	@members = GrabberPrinter.new.get_emails circle, params[:api_key]
 	@mailto = generate_mailto circle, @members
 	haml :list
 end
