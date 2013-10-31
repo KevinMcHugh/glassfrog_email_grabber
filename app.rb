@@ -17,7 +17,12 @@ end
 
 post '/' do
 	circle = params[:circle]
-	@members = GrabberPrinter.new.get_emails circle, params[:api_key]
-	@mailto = generate_mailto circle, @members
+	if circle.empty? || params[:api_key].empty?
+		@members = ["PLEASE FILL OUT CIRCLE AND KEY"]
+		@mailto = nil
+	else
+		@members = GrabberPrinter.new.get_emails circle, params[:api_key]
+		@mailto = generate_mailto circle, @members
+	end
 	haml :list
 end
