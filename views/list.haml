@@ -6,11 +6,15 @@
 		%main
 			%form{ :action => "", :method => "post"}
 				%fieldset
-					%label{:for => "circle"} Circle:
-					%input{:type => "text", :name => "circle", :class => "text"} Key:
-					%input{:type => "text", :name => "api_key", :class => "text"}
+					%li
+						%label{:for => "circle"} Circle (required):
+						%input{:type => "text", :name => "circle", :class => "text"}
+					%li
+						%label{:for => "circle"} Key (required):					
+						%input{:type => "text", :name => "api_key", :class => "text"}
 					%input{:type => "submit", :value => "Send", :class => "button"}
 			- @members.each do |member|
 				%li #{member}
-			%a{href: "mailto:#{@mailto}", title: "mail"} mail these people
+			- if @mailto	
+				%a{href: "mailto:#{@mailto}", title: "mail"} mail these people
 
