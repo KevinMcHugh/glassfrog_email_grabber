@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'nokogiri' , '~> 1.6.0'
+ruby "1.9.2"
+gem 'nokogiri'
 gem 'sinatra'
 gem 'haml'
