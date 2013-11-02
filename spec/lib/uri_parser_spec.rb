@@ -13,6 +13,11 @@ describe URIParser do
 
   subject { described_class.new( parser ) }
 
+  before :each do
+    parser.stub( :parse ).and_return parsed_uri
+    parsed_uri.stub( :read ).and_return read_uri
+  end
+
   describe "#url_generator" do
     it "spits out a formatted url" do
       stub_const( "URIParser::GLASSFROG_URI", glassfrog_uri )
@@ -23,18 +28,13 @@ describe URIParser do
   end
 
   describe "#uri_parse" do
-    before :each do
-      parser.stub( :parse ).and_return parsed_uri
-      parsed_uri.stub( :read ).and_return read_uri
-      subject.stub( :url_generator ).and_return generated_url
-    end
-
     it "generates the url" do 
       subject.should_receive( :url_generator ).with( url )
       subject.uri_parse url
     end
 
     it "parses the generated url" do
+      subject.stub( :url_generator ).and_return generated_url
       parser.should_receive( :parse ).with( generated_url )
       subject.uri_parse url
     end
@@ -46,6 +46,7 @@ describe URIParser do
   end
 
   describe "#get_xml" do
+
     it "parses a uri" do
       subject.should_receive( :uri_parse ).with( path )
       subject.get_xml path
