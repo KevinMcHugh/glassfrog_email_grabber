@@ -15,3 +15,7 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 end
+
+RSpec.configure do |config|
+  config.mock_framework = :rspec
+end 
