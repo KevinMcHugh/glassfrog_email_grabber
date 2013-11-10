@@ -26,6 +26,7 @@ class EmailGrabber
 			names_to_ids = {}
 			circle_hashes.each { |circle| names_to_ids[circle[:name]] = circle[:id]}
 			circle_id = names_to_ids[target_circle]
+			raise ArgumentError.new "I don't know that circle" unless circle_id
 			parse_emails get "circle/#{circle_id}/mailing_list"		
 		end
 	end

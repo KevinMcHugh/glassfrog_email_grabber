@@ -49,32 +49,35 @@ describe EmailGrabber do
 			["vfries@batmanandrobin.com", "dquaid@totalrecall.com", 
 				"tterminator@theterminator.com", "jslater@lastactionhero.com"]
 		end
-
 		let(:circles_result) do
 			[{:id=>"1960", :name=>"JCVD"}, {:id=>"1947", :name=>"AS"}]
 		end
 
+		let(:grabber) { EmailGrabber.new ""}
+		before(:each) do
+			grabber.stub(:get) {circles}
+		end
+
 		context "#parse_emails" do
-			subject { EmailGrabber.new("").parse_emails(people)}
+			subject { grabber.parse_emails(people)}
 			it {should == people_result }
 		end
 
 		describe "#get_emails_for" do
 			def get_emails circle
-				EmailGrabber.new("").get_emails_for circle
+				grabber.get_emails_for circle
 			end
 			context "invalid circles" do
 				it "raises an error for nil" do
 					expect {get_emails nil}.to raise_error ArgumentError, "Must provide a circle name"
 				end
+				it "raises an error for an unfound circle" do
+					expect {get_emails "Sly"}.to raise_error ArgumentError, "I don't know that circle"
+				end
 			end
 		end
 
 		describe "#get_circles" do
-			let(:grabber) { EmailGrabber.new ""}
-			before(:all) do
-				grabber.stub(:get) {circles}
-			end
 			subject {grabber.get_circles}
 			it {should == circles_result}
 		end
