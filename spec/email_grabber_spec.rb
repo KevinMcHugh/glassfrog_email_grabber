@@ -4,7 +4,6 @@ require 'rspec'
 describe EmailGrabber do 
 
 	context "methods" do
-		subject {EmailGrabber.new "key", "uri"}
 		let (:circles) do 
 			'<?xml version="1.0" encoding="UTF-8"?>
 			<circles type="array">
@@ -56,13 +55,13 @@ describe EmailGrabber do
 		end
 
 		context "#parse_emails" do
-			subject { EmailGrabber.new("", "").parse_emails(people)}
+			subject { EmailGrabber.new("").parse_emails(people)}
 			it {should == people_result }
 		end
 
 		describe "#get_emails_for" do
 			def get_emails circle
-				EmailGrabber.new("","").get_emails_for circle
+				EmailGrabber.new("").get_emails_for circle
 			end
 			context "invalid circles" do
 				it "raises an error for nil" do
@@ -72,7 +71,7 @@ describe EmailGrabber do
 		end
 
 		describe "#get_circles" do
-			let(:grabber) { EmailGrabber.new "", ""}
+			let(:grabber) { EmailGrabber.new ""}
 			before(:all) do
 				grabber.stub(:get) {circles}
 			end

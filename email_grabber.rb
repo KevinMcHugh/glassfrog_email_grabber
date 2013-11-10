@@ -2,18 +2,18 @@ require "open-uri"
 require 'nokogiri'
 
 class EmailGrabber
+	def glassfrog_uri; 'https://glassfrog.holacracy.org/api/v2/'; end
 	DEFAULT_ROLES = {"Facilitators" => "facilitators",
 		"Lead Links" => "lead_links",
 		"Rep Links" => "rep_links",
 		"Secretaries" => "secretaries"}
 	def default_roles; DEFAULT_ROLES; end
-	attr_reader :glassfrog_key, :glassfrog_uri
-	def initialize key, uri
+	attr_reader :glassfrog_key
+	def initialize key
 		@glassfrog_key = key
-		@glassfrog_uri = uri
 	end
 	def get method
-		URI.parse("#{@glassfrog_uri}#{method}.xml?api_key=#{@glassfrog_key}").read
+		uri = URI.parse("#{glassfrog_uri}#{method}.xml?api_key=#{@glassfrog_key}").read
 	end
 	def get_emails_for target_circle
 		if !target_circle
@@ -51,13 +51,12 @@ class EmailGrabber
 end
 
 class GrabberPrinter
-	def glassfrog_uri; 'https://glassfrog.holacracy.org/api/v2/'; end
 
 	def get_emails target_circle, glassfrog_key
 		unless glassfrog_key
 		    abort "Environment didn't contain a GLASSFROG_KEY, did you export it?"
 		end
-		grabber = EmailGrabber.new glassfrog_key, glassfrog_uri
+		grabber = EmailGrabber.new glassfrog_key
 		begin 
 			grabber.get_emails_for target_circle		
 		rescue StandardError => e

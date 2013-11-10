@@ -21,7 +21,7 @@ post '/' do
 		@members = ["PLEASE FILL OUT CIRCLE AND KEY"]
 		@mailto = nil
 	else
-		@members = GrabberPrinter.new.get_emails circle, params[:api_key]
+		@members = EmailGrabber.new(params[:api_key]).get_emails_for circle
 		@mailto = generate_mailto circle, @members
 	end
 	haml :list
