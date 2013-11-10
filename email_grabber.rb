@@ -3,11 +3,11 @@ require 'nokogiri'
 
 class EmailGrabber
 	def glassfrog_uri; 'https://glassfrog.holacracy.org/api/v2/'; end
-	DEFAULT_ROLES = {"Facilitators" => "facilitators",
+	def default_roles; {"Facilitators" => "facilitators",
 		"Lead Links" => "lead_links",
 		"Rep Links" => "rep_links",
 		"Secretaries" => "secretaries"}
-	def default_roles; DEFAULT_ROLES; end
+	end
 	attr_reader :glassfrog_key
 	def initialize key
 		@glassfrog_key = key
@@ -33,7 +33,6 @@ class EmailGrabber
 		circles.each { |circle| names_to_ids[circle[:name]] = circle[:id]}
 		names_to_ids[target_circle]
 	end
-
 
 	def get_circles
 		circles_xml = get("circle")
