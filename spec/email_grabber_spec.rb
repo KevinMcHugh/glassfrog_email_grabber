@@ -40,5 +40,16 @@ describe EmailGrabber do
 			subject { EmailGrabber.new("", "").parse_emails(xml)}
 			it {should == result }
 		end
+
+		describe "#get_emails_for" do
+			def get_emails circle
+				EmailGrabber.new("","").get_emails_for circle
+			end
+			context "invalid circles" do
+				it "raises an error for nil" do
+					expect {get_emails nil}.to raise_error ArgumentError, "Must provide a circle name"
+				end
+			end
+		end
 	end
 end

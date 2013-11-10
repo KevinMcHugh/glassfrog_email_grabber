@@ -17,7 +17,7 @@ class EmailGrabber
 	end
 	def get_emails_for target_circle
 		if !target_circle
-			raise no_circle_specified
+			raise ArgumentError.new "Must provide a circle name"
 		end
 		if default_roles.keys.include? target_circle
 			parse_emails get default_roles[target_circle]
