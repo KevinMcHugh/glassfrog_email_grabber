@@ -22,14 +22,18 @@ class EmailGrabber
 		if default_roles.keys.include? target_circle
 			parse_emails get default_roles[target_circle]
 		else
-			circle_hashes = get_circles
-			names_to_ids = {}
-			circle_hashes.each { |circle| names_to_ids[circle[:name]] = circle[:id]}
-			circle_id = names_to_ids[target_circle]
+			circle_id = get_id_of_circle target_circle, get_circles
 			raise ArgumentError.new "I don't know that circle" unless circle_id
 			parse_emails get "circle/#{circle_id}/mailing_list"		
 		end
 	end
+
+	def get_id_of_circle target_circle, circles
+		names_to_ids = {}
+		circles.each { |circle| names_to_ids[circle[:name]] = circle[:id]}
+		names_to_ids[target_circle]
+	end
+
 
 	def get_circles
 		circles_xml = get("circle")
