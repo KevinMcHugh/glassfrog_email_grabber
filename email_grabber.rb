@@ -16,9 +16,6 @@ class EmailGrabber
 		uri = URI.parse("#{glassfrog_uri}#{method}.xml?api_key=#{@glassfrog_key}").read
 	end
 	def get_emails_for target_circle
-		if !target_circle
-			raise ArgumentError.new "Must provide a circle name"
-		end
 		if default_roles.keys.include? target_circle
 			parse_emails get default_roles[target_circle]
 		else
@@ -63,8 +60,10 @@ class GrabberPrinter
 		grabber = EmailGrabber.new glassfrog_key
 		begin 
 			grabber.get_emails_for target_circle		
-		rescue StandardError => e
-			puts e.message
+		rescue ArgumentError => ae
+			result = "Something went wrong. Here's a list of circles I know about."
+			grabber.get_circles.each {|circle| result += " \n " + circle[:name]}
+			raise ArgumentError.new result
 		end
 	end
 end

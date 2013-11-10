@@ -14,8 +14,11 @@
 						%label{:for => "circle"} Key (required):					
 						%input{:type => "text", :name => "api_key", :class => "text"}
 					%input{:type => "submit", :value => "Send", :class => "button"}
-			- @members.each do |member|
-				%li #{member}
+			- if @error
+				%p #{@error}
+			- if @members
+				- @members.each do |member|
+					%li #{member}
 			- if @mailto	
 				%a{href: "mailto:#{@mailto}", title: "mail"} mail these people
 

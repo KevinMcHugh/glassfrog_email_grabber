@@ -2,7 +2,6 @@ require './app'
 require 'rspec'
 
 describe EmailGrabber do 
-
 	context "methods" do
 		let (:circles) do 
 			'<?xml version="1.0" encoding="UTF-8"?>
@@ -68,9 +67,6 @@ describe EmailGrabber do
 				grabber.get_emails_for circle
 			end
 			context "invalid circles" do
-				it "raises an error for nil" do
-					expect {get_emails nil}.to raise_error ArgumentError, "Must provide a circle name"
-				end
 				it "raises an error for an unfound circle" do
 					expect {get_emails "Sly"}.to raise_error ArgumentError, "I don't know that circle"
 				end
