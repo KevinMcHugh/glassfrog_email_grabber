@@ -5,7 +5,22 @@ describe EmailGrabber do
 
 	context "methods" do
 		subject {EmailGrabber.new "key", "uri"}
-		let(:xml) do 
+		let (:circles) do 
+			'<?xml version="1.0" encoding="UTF-8"?>
+			<circles type="array">
+				<circle>
+				    <id type="integer">1960</id>
+				    <short-name>JCVD</short-name>
+				    <name>Jean Claude Van Damme</name>
+			 	</circle>
+				<circle>
+				    <id type="integer">1947</id>
+			    	<short-name>AS</short-name>
+			    	<name>Arnold Schwarzenegger</name>
+			  	</circle>
+			</circles>'
+		end
+		let(:people) do 
 			'<?xml version="1.0" encoding="UTF-8"?>
 			<people type="array">
 			  <person>
@@ -31,14 +46,18 @@ describe EmailGrabber do
 			</people>'
 		end
 
-		let(:result) do 
+		let(:people_result) do 
 			["vfries@batmanandrobin.com", "dquaid@totalrecall.com", 
 				"tterminator@theterminator.com", "jslater@lastactionhero.com"]
 		end
 
+		let(:circles_result) do
+			[{:id=>"1960", :name=>"JCVD"}, {:id=>"1947", :name=>"AS"}]
+		end
+
 		context "#parse_emails" do
-			subject { EmailGrabber.new("", "").parse_emails(xml)}
-			it {should == result }
+			subject { EmailGrabber.new("", "").parse_emails(people)}
+			it {should == people_result }
 		end
 
 		describe "#get_emails_for" do
@@ -51,5 +70,15 @@ describe EmailGrabber do
 				end
 			end
 		end
+
+		describe "#get_circles" do
+			let(:grabber) { EmailGrabber.new "", ""}
+			before(:all) do
+				grabber.stub(:get) {circles}
+			end
+			subject {grabber.get_circles}
+			it {should == circles_result}
+		end
+
 	end
 end
