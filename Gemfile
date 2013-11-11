@@ -4,4 +4,6 @@ ruby "2.0.0"
 gem 'nokogiri'
 gem 'sinatra'
 gem 'haml'
-gem 'rspec'
+group :development, :test do
+	gem 'rspec'
+end
