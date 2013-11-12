@@ -9,13 +9,13 @@ describe WebGrabberWrapper do
 			let(:circles) do
 				[{id: "1960", name: "JCVD"}, {id: "1947", name: "AS"}]
 			end
-			let(:circles_result) {["JCVD", "AS"]}
+			let(:circles_result) {{members: ["JCVD", "AS"], error: "ArgumentError"}}
 			before(:each) do
 				EmailGrabber.any_instance.stub(:get_emails_for).and_raise(ArgumentError.new)
 				EmailGrabber.any_instance.stub(:get_circles).and_return(circles)
 			end
 			subject { WebGrabberWrapper.new.get_emails params }
-			it {should == {members: circles_result}}
+			it {should == circles_result}
 		end
 		context "with a circle input" do
 			let(:mailto_result) {'jkimble@kindergartencop.com?subject=&body=Dear%20%20Members,'}
