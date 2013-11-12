@@ -15,9 +15,7 @@ describe WebGrabberWrapper do
 				EmailGrabber.any_instance.stub(:get_circles).and_return(circles)
 			end
 			subject { WebGrabberWrapper.new.get_emails params }
-			its(:members) {should == circles_result}
-			its(:mailto) {should be_nil}
-			its(:error) {should be_nil}
+			it {should == {members: circles_result}}
 		end
 		context "with a circle input" do
 			let(:mailto_result) {'jkimble@kindergartencop.com?subject=&body=Dear%20%20Members,'}
@@ -26,9 +24,7 @@ describe WebGrabberWrapper do
 				EmailGrabber.any_instance.stub(:get_emails_for).and_return(people_result)
 			end
 			subject { WebGrabberWrapper.new.get_emails params }
-			its(:members) {should == people_result}
-			its(:error) {should be_nil}
-			its(:mailto) {should == mailto_result}
+			it {should == {members: people_result, mailto: mailto_result}}
 		end
 		context "when an unexpected error occurs" do
 			let(:error_message) {"SOMETHING_WRONG"}
@@ -36,9 +32,7 @@ describe WebGrabberWrapper do
 				EmailGrabber.any_instance.stub(:get_emails_for).and_raise(StandardError.new error_message)
 			end
 			subject { WebGrabberWrapper.new.get_emails params }
-			its(:error) {should == error_message}
-			its(:members) {should be_nil}
-			its(:mailto) {should be_nil}
+			it {should == {error: error_message}}
 		end
 
 	end

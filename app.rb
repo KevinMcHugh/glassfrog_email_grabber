@@ -17,10 +17,10 @@ post '/' do
 		@members = nil
 	else
 		grabber = WebGrabberWrapper.new
-		grabber.get_emails({ circle: circle, api_key: api_key})
-		@error = grabber.error
-		@members = grabber.members
-		@mailto = grabber.mailto
+		result = grabber.get_emails({ circle: circle, api_key: api_key})
+		@error = result[:error]
+		@members = result[:members]
+		@mailto = result[:mailto]
 	end
 	haml :list
 end

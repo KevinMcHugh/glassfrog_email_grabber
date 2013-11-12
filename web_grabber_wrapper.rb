@@ -1,19 +1,18 @@
 class WebGrabberWrapper
-	attr_reader :error, :members, :mailto
 	def get_emails params
+		result = {}
 		begin
 			grabber = EmailGrabber.new(params[:api_key])
 			circle = params[:circle]
-			@members = grabber.get_emails_for circle
-			@mailto = generate_mailto circle, @members
+			members = grabber.get_emails_for circle
+			result[:members] = members
+			result[:mailto] = generate_mailto circle, members
 		rescue ArgumentError => e
-			@members = grabber.get_circles.map {|circle| circle[:name]}
-			@mailto = nil
+			result[:members] = grabber.get_circles.map {|circle| circle[:name]}
 		rescue StandardError => e
-			@error = e.message
-			@members = nil
+			result[:error] = e.message
 		end
-		self
+		result
 	end
 
 	def generate_mailto circle, members
