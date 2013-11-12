@@ -9,6 +9,7 @@ class WebGrabberWrapper
 			result[:mailto] = generate_mailto circle, members
 		rescue ArgumentError => e
 			result[:members] = grabber.get_circles.map {|circle| circle[:name]}
+			result[:error] = e.message
 		rescue StandardError => e
 			result[:error] = e.message
 		end
