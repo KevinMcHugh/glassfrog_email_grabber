@@ -1,8 +1,12 @@
-require_relative 'email_grabber'
+require_relative 'console_grabber_wrapper'
 
-begin
-	circle = ARGV.first
-	puts ConsoleGrabberWrapper.new.get_emails circle, ENV['GLASSFROG_KEY']
-rescue StandardError => e
-	puts e.message
+
+circle = ARGV.first
+result = ConsoleGrabberWrapper.new.get_emails circle, ENV['GLASSFROG_KEY']
+error = result[:error]
+members = result[:members]
+if error
+	puts error
+else
+	puts members
 end

@@ -1,6 +1,6 @@
 tell application "Microsoft Outlook"
 set newMessage to make new outgoing message with properties {subject:"<%= circle %> Circle: ", content: "Dear <%= circle %> Circle,\n"}
-<% addresses.each do |address| %>
+<% members.each do |address| %>
   make new recipient at newMessage with properties {email address:{address:"<%= address %>"}}
 <% end %>
 open newMessage

@@ -1,4 +1,4 @@
-require './app'
+require './console_grabber_wrapper'
 require 'rspec'
 
 describe ConsoleGrabberWrapper do 
@@ -8,18 +8,16 @@ describe ConsoleGrabberWrapper do
 	let(:error_message) do
 		"Something went wrong. Here's a list of circles I know about. \n JCVD \n AS"
 	end
+	let(:circles_result) {{members: ["JCVD", "AS"], error: error_message}}
 	describe '#get_emails' do
 		context "with no circle input" do
 			before(:each) do
 				EmailGrabber.any_instance.stub(:get_emails_for).and_raise(ArgumentError.new)
 				EmailGrabber.any_instance.stub(:get_circles).and_return(circles)
 			end
-			def get_emails  
-				ConsoleGrabberWrapper.new.get_emails nil, ""
-			end
-			it "raises an exception" do
-				expect {get_emails}.to raise_error ArgumentError, error_message
-			end
+
+			subject {ConsoleGrabberWrapper.new.get_emails nil, "" }
+			it {should == circles_result}
 		end
 		context "with a circle input" do
 			let(:people_result) { ["jkimble@kindergartencop.com"] }
@@ -27,7 +25,7 @@ describe ConsoleGrabberWrapper do
 				EmailGrabber.any_instance.stub(:get_emails_for).and_return(people_result)
 			end
 			subject { ConsoleGrabberWrapper.new.get_emails nil, "" }
-			it {should == people_result}
+			it {should == {members: people_result}}
 		end
 	end
 end

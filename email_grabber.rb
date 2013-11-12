@@ -50,20 +50,3 @@ class EmailGrabber
 		emails.map {|email| "#{email.text}"}
 	end
 end
-
-class ConsoleGrabberWrapper
-
-	def get_emails target_circle, glassfrog_key
-		unless glassfrog_key
-		    abort "Environment didn't contain a GLASSFROG_KEY, did you export it?"
-		end
-		grabber = EmailGrabber.new glassfrog_key
-		begin 
-			grabber.get_emails_for target_circle		
-		rescue ArgumentError => ae
-			result = "Something went wrong. Here's a list of circles I know about."
-			grabber.get_circles.each {|circle| result += " \n " + circle[:name]}
-			raise ArgumentError.new result
-		end
-	end
-end

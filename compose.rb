@@ -1,14 +1,16 @@
 require 'erb'
 require 'open3'
-require_relative 'email_grabber'
+require_relative 'console_grabber_wrapper'
 
-begin 
-	circle = ARGV.first
-	renderer = ERB.new(File.read("compose.erb"))
-	addresses = ConsoleGrabberWrapper.new.get_emails circle, ENV['GLASSFROG_KEY']
+circle = ARGV.first
+renderer = ERB.new(File.read("compose.erb"))
+result = ConsoleGrabberWrapper.new.get_emails circle, ENV['GLASSFROG_KEY']
+error = result[:error]
+members = result[:members]
+if error
+	puts error
+else
 	Open3.pipeline_w(["osascript"]) {|i, ts|
-	  	i.puts(renderer.result())
+		i.puts(renderer.result())
 	}
-rescue StandardError => e
-	puts e.message
-end 
+end
