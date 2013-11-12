@@ -1,7 +1,7 @@
 require './app'
 require 'rspec'
 
-describe GrabberPrinter do 
+describe ConsoleGrabberWrapper do 
 	let(:circles) do
 		[{id: "1960", name: "JCVD"}, {id: "1947", name: "AS"}]
 	end
@@ -14,7 +14,7 @@ describe GrabberPrinter do
 			EmailGrabber.any_instance.stub(:get_circles).and_return(circles)
 		end
 		def get_emails  
-			GrabberPrinter.new.get_emails nil, ""
+			ConsoleGrabberWrapper.new.get_emails nil, ""
 		end
 		it "raises an exception" do
 			expect {get_emails}.to raise_error ArgumentError, error_message

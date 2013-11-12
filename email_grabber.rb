@@ -51,7 +51,7 @@ class EmailGrabber
 	end
 end
 
-class GrabberPrinter
+class ConsoleGrabberWrapper
 
 	def get_emails target_circle, glassfrog_key
 		unless glassfrog_key
