@@ -13,7 +13,6 @@ class ConsoleGrabberWrapper
 		rescue ArgumentError => ae
 			circles = grabber.get_circles.map {|circle| circle[:name]}
 			error = "Something went wrong. Here's a list of circles I know about."
-			circles.each {|circle| error += " \n " + circle}
 			result = {error: error, members: circles}
 		end
 		result

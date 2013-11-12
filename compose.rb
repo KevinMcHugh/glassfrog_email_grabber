@@ -9,6 +9,7 @@ error = result[:error]
 members = result[:members]
 if error
 	puts error
+	puts members
 else
 	Open3.pipeline_w(["osascript"]) {|i, ts|
 		i.puts(renderer.result())
