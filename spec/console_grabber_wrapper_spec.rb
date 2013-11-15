@@ -6,7 +6,7 @@ describe ConsoleGrabberWrapper do
 		[{id: "1960", name: "JCVD"}, {id: "1947", name: "AS"}]
 	end
 	let(:error_message) do
-		"Something went wrong. Here's a list of circles I know about. \n JCVD \n AS"
+		"Something went wrong. Here's a list of circles I know about."
 	end
 	let(:circles_result) {{members: ["JCVD", "AS"], error: error_message}}
 	describe '#get_emails' do
