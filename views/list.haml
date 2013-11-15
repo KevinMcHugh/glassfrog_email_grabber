@@ -7,12 +7,8 @@
 			%a{href: "http://github.com/backstop/glassfrog_email_grabber", title: "source code"} view the source on Github
 			%form{ :action => "", :method => "post"}
 				%fieldset
-					%li
-						%label{:for => "circle"} Circle (optional):
-						%input{:type => "text", :name => "circle", :class => "text"}
-					%li
-						%label{:for => "circle"} Key (required):					
-						%input{:type => "text", :name => "api_key", :class => "text"}
+					%label{:for => "circle"} Circle:
+					%input{:type => "text", :name => "circle", :class => "text"}
 					%input{:type => "submit", :value => "Send", :class => "button"}
 			- if @error
 				%p #{@error}
